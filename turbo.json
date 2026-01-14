@@ -1,6 +1,19 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "DATABASE_URL",
+    "REDIS_HOST",
+    "REDIS_PORT",
+    "JWT_SECRET",
+    "JWT_ACCESS_EXPIRATION",
+    "JWT_REFRESH_EXPIRATION",
+    "NODE_ENV",
+    "BACKEND_PORT",
+    "FRONTEND_PORT",
+    "FRONTEND_URL",
+    "NEXT_PUBLIC_MAPTILER_API_KEY"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -16,6 +29,9 @@
     },
     "lint": {
       "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "cache": false
     },
     "clean": {
       "cache": false

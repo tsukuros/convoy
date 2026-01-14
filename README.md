@@ -16,8 +16,9 @@ Production-ready, scalable web platform for tracking military/humanitarian suppl
 ### Backend
 - **Framework**: NestJS 10+
 - **Language**: TypeScript 5+
-- **Database**: PostgreSQL 16+ with PostGIS
-- **ORM**: Prisma 5+
+- **Database**: PostgreSQL 17 (Neon) or 17+ with PostGIS
+- **ORM**: Prisma 6+
+- **Password Hashing**: Argon2
 - **WebSockets**: Socket.io
 - **Cache**: Redis
 - **Testing**: Jest, Supertest
@@ -31,18 +32,27 @@ Production-ready, scalable web platform for tracking military/humanitarian suppl
 ## Prerequisites
 
 - Node.js 20+
-- bun 9+
-- Docker & Docker Compose
+- bun 1.0+
+- Docker & Docker Compose (optional for local database)
+- Neon account (optional, for cloud database)
 
 ## Quick Start
 
 1. **Clone and install dependencies**
    ```bash
    cp .env.example .env
+   # Edit .env with your database URL (Neon or local Docker)
    bun install
    ```
 
 2. **Start infrastructure**
+
+   **Option A: Neon (Cloud)**
+   - Create a project at https://neon.tech
+   - Copy connection string to `DATABASE_URL` in `.env`
+   - Skip Docker setup
+
+   **Option B: Local Docker**
    ```bash
    docker-compose up -d
    ```
@@ -50,8 +60,8 @@ Production-ready, scalable web platform for tracking military/humanitarian suppl
 3. **Run database migrations**
    ```bash
    cd apps/backend
-   bun prisma migrate dev
-   bun prisma db seed
+   bun run db:migrate  # Create tables
+   bun run db:seed     # Seed demo users
    ```
 
 4. **Start development servers**
@@ -95,8 +105,34 @@ bun build
 # Run tests
 bun test
 
+# Type check all packages
+bun tsc
+
 # Lint and format
 bun check:fix
+```
+
+### Database Management
+
+All database commands run from `apps/backend`:
+
+```bash
+cd apps/backend
+
+# Generate Prisma Client
+bun run db:generate
+
+# Create/update database schema
+bun run db:migrate
+
+# Seed demo users
+bun run db:seed
+
+# Open Prisma Studio (GUI)
+bun run db:studio
+
+# Push schema without migrations
+bun run db:push
 ```
 
 ## License

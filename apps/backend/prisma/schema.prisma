@@ -1,0 +1,128 @@
+// Prisma Schema - Version 6.x
+// IDE may show warnings about Prisma 7 changes - these can be ignored
+// This schema is correct for Prisma 6.19.1
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         Role      @default(VIEWER)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+enum Role {
+  VIEWER
+  OPERATOR
+  ADMIN
+}
+
+model Asset {
+  id         String      @id @default(uuid())
+  name       String
+  type       AssetType
+  status     AssetStatus
+  currentLat Float
+  currentLng Float
+  heading    Float?
+  speed      Float?
+  lastUpdate DateTime    @default(now())
+  metadata   Json?
+  routeId    String?
+  route      Route?      @relation(fields: [routeId], references: [id])
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([currentLat, currentLng])
+  @@index([status])
+}
+
+enum AssetType {
+  TRUCK
+  ARMORED_VEHICLE
+  SUPPLY_CONVOY
+  MEDICAL_UNIT
+  FUEL_TRANSPORT
+}
+
+enum AssetStatus {
+  ACTIVE
+  INACTIVE
+  MAINTENANCE
+  EMERGENCY
+}
+
+model Route {
+  id        String   @id @default(uuid())
+  name      String
+  geometry  Json // GeoJSON LineString
+  distance  Float
+  duration  Float
+  waypoints Json[]
+  assets    Asset[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Geofence {
+  id        String       @id @default(uuid())
+  name      String
+  type      GeofenceType
+  geometry  Json // GeoJSON Polygon
+  severity  Severity
+  isActive  Boolean      @default(true)
+  metadata  Json?
+  alerts    Alert[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([isActive])
+}
+
+enum GeofenceType {
+  DANGER_ZONE
+  SAFE_ZONE
+  CHECKPOINT
+  NO_GO_ZONE
+  RESTRICTED_AREA
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model Alert {
+  id         String    @id @default(uuid())
+  assetId    String
+  geofenceId String
+  geofence   Geofence  @relation(fields: [geofenceId], references: [id])
+  type       AlertType
+  severity   Severity
+  message    String
+  isRead     Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+enum AlertType {
+  ENTERED
+  EXITED
+  PROXIMITY
+}

@@ -12,6 +12,8 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "tsc": "turbo run typecheck",
     "format": "biome format --write .",
     "check": "biome check .",
     "check:fix": "biome check --write .",

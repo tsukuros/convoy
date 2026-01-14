@@ -10,6 +10,7 @@
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
     "lint": "biome check src app",
+    "typecheck": "tsc --noEmit",
     "clean": "rm -rf .next"
   },
   "dependencies": {

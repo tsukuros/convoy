@@ -1,5 +1,5 @@
 import { cleanup } from '@testing-library/react';
-import { afterEach, expect } from 'vitest';
+import { afterEach } from 'vitest';
 
 // Cleanup after each test
 afterEach(() => {
