@@ -21,7 +21,8 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnusedVariables": "warn"
+        "noUnusedVariables": "warn",
+        "noUnusedFunctionParameters": "off"
       },
       "suspicious": {
         "noExplicitAny": "warn"
@@ -35,6 +36,9 @@
       "trailingCommas": "all",
       "semicolons": "always",
       "arrowParentheses": "always"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
   },
   "overrides": [
@@ -45,6 +49,16 @@
       },
       "formatter": {
         "enabled": false
+      }
+    },
+    {
+      "includes": ["apps/backend/src/**/*.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "off"
+          }
+        }
       }
     }
   ]

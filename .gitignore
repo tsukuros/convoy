@@ -28,6 +28,10 @@ yarn-error.log*
 .env
 .env*.local
 
+# Test files
+cookies.txt
+*.http
+
 # Turbo
 .turbo
 
