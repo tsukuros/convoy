@@ -10,6 +10,7 @@ coverage
 .next/
 out/
 build
+next-env.d.ts
 
 # NestJS
 dist/
@@ -34,6 +35,9 @@ cookies.txt
 
 # Turbo
 .turbo
+
+# TypeScript
+*.tsbuildinfo
 
 # IDE
 .vscode/*

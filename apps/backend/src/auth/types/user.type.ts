@@ -1,7 +1,7 @@
 import type { Role } from '@prisma/client';
 
-export interface User {
+export type User = {
   id: string;
   email: string;
   role: Role;
-}
+};
