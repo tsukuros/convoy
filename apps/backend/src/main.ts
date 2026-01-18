@@ -31,6 +31,7 @@ async function bootstrap() {
   await app.listen(port);
 
   console.log(`Backend running on http://localhost:${port}`);
+  console.log(`WebSocket available at ws://localhost:${port}/assets`);
   console.log(`API docs: http://localhost:${port}/api`);
 }
 
